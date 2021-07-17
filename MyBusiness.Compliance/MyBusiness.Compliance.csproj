@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+        <IsPackable>false</IsPackable>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+        <DocumentationFile>bin\Debug\net5.0\MyBusiness.Compliance.xml</DocumentationFile>
+        <NoWarn>1701;1702;1591</NoWarn>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+        <DocumentationFile>bin\Release\net5.0\MyBusiness.Compliance.xml</DocumentationFile>
+        <NoWarn>1701;1702;1591</NoWarn>
+    </PropertyGroup>
+
+    <ItemGroup Label="Microsoft">
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+        <PackageReference Include="AspNetCore.HealthChecks.UI" Version="5.0.1" />
+        <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="5.0.1" />
+        <PackageReference Include="AspNetCore.HealthChecks.UI.InMemory.Storage" Version="5.0.1" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="5.0.7" />
+    </ItemGroup>    
+
+    <ItemGroup Label="MasUnity">
+      <PackageReference Include="MasUnity" Version="1.0.4-beta" />
+      <PackageReference Include="MasUnity.HealthCheck" Version="1.0.4-beta" />
+      <PackageReference Include="MasUnity.HostedService" Version="1.0.4-beta" />
+    </ItemGroup>
+</Project>
