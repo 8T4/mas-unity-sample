@@ -7,8 +7,8 @@
 # MAS Unity Sample
 This repository has a sample of the application of [MAS Unity](https://github.com/8T4/mas-unity). This code presents an example of an agent that performs the credit analysis after purchase. The following steps show the implementation of the sample project.
 
-## Create the project
-The first step is create a web API with ASP.NET Core and install the [MAS Unity](https://github.com/8T4/mas-unity) dependencies:
+## Dependencies
+The sample project was created as a web API with ASP.NET Core, and uses the [MAS Unity](https://github.com/8T4/mas-unity) dependencies:
 
 ```
 Install-Package MasUnity
@@ -55,4 +55,4 @@ Project/
                                                                                                  
   
 
-## Use the domain language
+## The sample project code
