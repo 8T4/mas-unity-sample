@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
-using MyBusiness.Compliance.AnalysisAfterPurchase.Application;
+using MyBusiness.Compliance.RiskAnalysis.Environment.Transactions;
 
 namespace MyBusiness.Compliance.Configuration
 {

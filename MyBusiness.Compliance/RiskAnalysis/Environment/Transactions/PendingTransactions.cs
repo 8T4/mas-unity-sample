@@ -1,9 +1,7 @@
 using System.Threading.Tasks;
 using MasUnity.Decision.Abstractions;
-using MyBusiness.Compliance.AnalysisAfterPurchase.Application;
-using MyBusiness.Compliance.AnalysisAfterPurchase.Models;
 
-namespace MyBusiness.Compliance.AnalysisAfterPurchase.Agents.CreditRisk.Environments
+namespace MyBusiness.Compliance.RiskAnalysis.Environment.Transactions
 {
     public class PendingTransactions : IEnvironment
     {

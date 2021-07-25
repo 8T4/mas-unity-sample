@@ -4,11 +4,11 @@ using System.Threading.Tasks;
 using MasUnity.Decision;
 using MasUnity.Decision.Abstractions;
 using MasUnity.Decision.Actions;
-using MyBusiness.Compliance.AnalysisAfterPurchase.Agents.CreditRisk.Environments;
-using MyBusiness.Compliance.AnalysisAfterPurchase.Agents.CreditRisk.Knowledges;
-using MyBusiness.Compliance.AnalysisAfterPurchase.Models;
+using MasUnity.HostedService.Contracts;
+using MyBusiness.Compliance.RiskAnalysis.Agents.CreditRisk.Knowledges;
+using MyBusiness.Compliance.RiskAnalysis.Environment.Transactions;
 
-namespace MyBusiness.Compliance.AnalysisAfterPurchase.Agents.CreditRisk.Actions
+namespace MyBusiness.Compliance.RiskAnalysis.Agents.CreditRisk.Actions
 {
     public class AllowCreditCardTransaction : IAction
     {
@@ -16,20 +16,19 @@ namespace MyBusiness.Compliance.AnalysisAfterPurchase.Agents.CreditRisk.Actions
         private PendingTransactions Queue { get; }
         private AboutCreditCardTransactionBetween8AmAnd20Pm Knowledge { get; }
 
-
-        public AllowCreditCardTransaction(PendingTransactions queue, AboutCreditCardTransactionBetween8AmAnd20Pm knowledge)
+        public AllowCreditCardTransaction(IAgentServiceScope serviceScope)
         {
-            Queue = queue;
-            Knowledge = knowledge;
-        }
-
+            Queue = serviceScope.GetService<PendingTransactions>();
+            Knowledge = serviceScope.GetService<AboutCreditCardTransactionBetween8AmAnd20Pm>();
+        }        
+        
         public Task<Perception> Realize(AgentContext context, CancellationToken cancellation)
         {
             Transaction = Queue.GetNext();
 
             return Perception.Assertion(
                 ("It's a credit card transaction", Transaction.IsCreditCardTransaction()),
-                ("It's normal transaction time", ScheduleEnvironment.ItsNormalTransactionSchedule()),
+                ("It's normal transaction time", AboutTransactionSchedule.ItsNormalTransactionSchedule()),
                 ("Has safe credit card transactions", Knowledge.IsSafeTransaction(Transaction))
             );
         }
@@ -37,7 +36,7 @@ namespace MyBusiness.Compliance.AnalysisAfterPurchase.Agents.CreditRisk.Actions
         public async Task<AgentResult> Execute(AgentContext context, CancellationToken cancellation)
         {
             await Queue.SaveAsApprovedTransaction(Transaction);
-            Console.WriteLine(Transaction.ToString());
+            Console.WriteLine(Transaction.ToString(context));
             return AgentResult.Ok($"{Transaction.Id} Allowed");
         }
     }

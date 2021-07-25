@@ -3,11 +3,11 @@ using MasUnity.HostedService.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using MyBusiness.Compliance.AnalysisAfterPurchase.Agents.CreditRisk;
-using MyBusiness.Compliance.AnalysisAfterPurchase.Agents.CreditRisk.Actions;
-using MyBusiness.Compliance.AnalysisAfterPurchase.Agents.CreditRisk.Environments;
-using MyBusiness.Compliance.AnalysisAfterPurchase.Agents.CreditRisk.Knowledges;
 using MyBusiness.Compliance.Configuration;
+using MyBusiness.Compliance.RiskAnalysis.Agents.CreditRisk;
+using MyBusiness.Compliance.RiskAnalysis.Agents.CreditRisk.Actions;
+using MyBusiness.Compliance.RiskAnalysis.Agents.CreditRisk.Knowledges;
+using MyBusiness.Compliance.RiskAnalysis.Environment.Transactions;
 
 namespace MyBusiness.Compliance
 {
@@ -20,11 +20,11 @@ namespace MyBusiness.Compliance
             services.AddEfServices();
             services.AddSwaggerServices();
             services.AddHealthCheckServices();
-            services.AddControllers();               
+            services.AddControllers(); 
 
             services.ConfigureMasUnity((option) =>
             {
-                option.AddAgent<CreditRiskAgent>(2)
+                option.AddAgent<CreditRiskAgent>()
                     .WithSchedule<CreditRiskAgentSchedule>()
                     .WithEnvironment<PendingTransactions>()
                     .WithKnowledge<AboutCreditCardTransactionAfter20Pm>()

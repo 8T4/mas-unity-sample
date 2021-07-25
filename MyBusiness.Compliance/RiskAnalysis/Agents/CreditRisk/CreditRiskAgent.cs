@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using MasUnity.Agents;
 using MasUnity.Decision.Abstractions;
 using MasUnity.HostedService.Contracts;
-using MyBusiness.Compliance.AnalysisAfterPurchase.Agents.CreditRisk.Actions;
+using MyBusiness.Compliance.RiskAnalysis.Agents.CreditRisk.Actions;
 
-namespace MyBusiness.Compliance.AnalysisAfterPurchase.Agents.CreditRisk
+namespace MyBusiness.Compliance.RiskAnalysis.Agents.CreditRisk
 {
     public class CreditRiskAgent: ProactiveAgent
     {

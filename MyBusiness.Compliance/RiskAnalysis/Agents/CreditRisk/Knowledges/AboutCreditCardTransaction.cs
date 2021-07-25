@@ -1,6 +1,6 @@
-using MyBusiness.Compliance.AnalysisAfterPurchase.Models;
+using MyBusiness.Compliance.RiskAnalysis.Environment.Transactions;
 
-namespace MyBusiness.Compliance.AnalysisAfterPurchase.Agents.CreditRisk.Knowledges
+namespace MyBusiness.Compliance.RiskAnalysis.Agents.CreditRisk.Knowledges
 {
     public static class AboutCreditCardTransaction
     {

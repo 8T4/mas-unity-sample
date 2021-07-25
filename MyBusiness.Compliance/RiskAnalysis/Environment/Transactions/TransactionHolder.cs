@@ -1,6 +1,6 @@
 using System;
 
-namespace MyBusiness.Compliance.AnalysisAfterPurchase.Application
+namespace MyBusiness.Compliance.RiskAnalysis.Environment.Transactions
 {
     public class TransactionHolder
     {

@@ -1,8 +1,7 @@
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using MyBusiness.Compliance.AnalysisAfterPurchase.Models;
 
-namespace MyBusiness.Compliance.AnalysisAfterPurchase.Application
+namespace MyBusiness.Compliance.RiskAnalysis.Environment.Transactions
 {
     [ApiController]
     [Route("api/[controller]")]

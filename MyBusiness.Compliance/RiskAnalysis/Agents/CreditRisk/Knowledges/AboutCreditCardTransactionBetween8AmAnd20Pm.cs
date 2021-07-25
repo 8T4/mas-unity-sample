@@ -1,7 +1,7 @@
 using MasUnity.Decision.Abstractions;
-using MyBusiness.Compliance.AnalysisAfterPurchase.Models;
+using MyBusiness.Compliance.RiskAnalysis.Environment.Transactions;
 
-namespace MyBusiness.Compliance.AnalysisAfterPurchase.Agents.CreditRisk.Knowledges
+namespace MyBusiness.Compliance.RiskAnalysis.Agents.CreditRisk.Knowledges
 {
     public class AboutCreditCardTransactionBetween8AmAnd20Pm : IKnowledge
     {

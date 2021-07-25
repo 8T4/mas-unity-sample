@@ -1,18 +1,16 @@
 using System;
 
-namespace MyBusiness.Compliance.AnalysisAfterPurchase.Agents.CreditRisk.Environments
+namespace MyBusiness.Compliance.RiskAnalysis.Agents.CreditRisk.Knowledges
 {
-    public static class ScheduleEnvironment
+    public static class AboutTransactionSchedule
     {
         public static bool ItsNormalTransactionSchedule() =>
             !ItsRestrictedTransactionTime();
         
-        public static bool ItsRestrictedTransactionTime()
-        {
-            return DateTime.Now.ItsRestrictedTransactionTime();
-        }
-        
-        public static bool ItsRestrictedTransactionTime(this DateTime dateTime)
+        public static bool ItsRestrictedTransactionTime() =>
+            DateTime.Now.ItsRestrictedTransactionTime();
+
+        private static bool ItsRestrictedTransactionTime(this DateTime dateTime)
         {
             var currentTime = dateTime.TimeOfDay;
             var start = new TimeSpan(20, 0, 0);

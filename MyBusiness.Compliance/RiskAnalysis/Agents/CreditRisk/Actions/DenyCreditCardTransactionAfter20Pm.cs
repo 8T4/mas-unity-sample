@@ -4,11 +4,11 @@ using System.Threading.Tasks;
 using MasUnity.Decision;
 using MasUnity.Decision.Abstractions;
 using MasUnity.Decision.Actions;
-using MyBusiness.Compliance.AnalysisAfterPurchase.Agents.CreditRisk.Environments;
-using MyBusiness.Compliance.AnalysisAfterPurchase.Agents.CreditRisk.Knowledges;
-using MyBusiness.Compliance.AnalysisAfterPurchase.Models;
+using MasUnity.HostedService.Contracts;
+using MyBusiness.Compliance.RiskAnalysis.Agents.CreditRisk.Knowledges;
+using MyBusiness.Compliance.RiskAnalysis.Environment.Transactions;
 
-namespace MyBusiness.Compliance.AnalysisAfterPurchase.Agents.CreditRisk.Actions
+namespace MyBusiness.Compliance.RiskAnalysis.Agents.CreditRisk.Actions
 {
     public class DenyCreditCardTransactionAfter20Pm: IAction
     {
@@ -17,11 +17,11 @@ namespace MyBusiness.Compliance.AnalysisAfterPurchase.Agents.CreditRisk.Actions
         private AboutCreditCardTransactionAfter20Pm Knowledge { get; }
         
         
-        public DenyCreditCardTransactionAfter20Pm(PendingTransactions queue, AboutCreditCardTransactionAfter20Pm knowledge)
+        public DenyCreditCardTransactionAfter20Pm(IAgentServiceScope serviceScope)
         {
-            Queue = queue;
-            Knowledge = knowledge;
-        }
+            Queue = serviceScope.GetService<PendingTransactions>();
+            Knowledge = serviceScope.GetService<AboutCreditCardTransactionAfter20Pm>();
+        }        
         
         public Task<Perception> Realize(AgentContext context, CancellationToken cancellation)
         {
@@ -29,7 +29,7 @@ namespace MyBusiness.Compliance.AnalysisAfterPurchase.Agents.CreditRisk.Actions
             
             return Perception.Assertion(
                 ("It's a credit card transaction", Transaction.IsCreditCardTransaction()),
-                ("It's restricted transaction time", ScheduleEnvironment.ItsRestrictedTransactionTime()),
+                ("It's restricted transaction time", AboutTransactionSchedule.ItsRestrictedTransactionTime()),
                 ("It's an unsafe credit card transactions", Knowledge.IsUnsafeTransaction(Transaction))
             );
         }
@@ -37,7 +37,7 @@ namespace MyBusiness.Compliance.AnalysisAfterPurchase.Agents.CreditRisk.Actions
         public async Task<AgentResult> Execute(AgentContext context, CancellationToken cancellation)
         {
             await Queue.SaveAsForbiddenTransaction(Transaction);
-            Console.WriteLine(Transaction.ToString());
+            Console.WriteLine(Transaction.ToString(context));
 
             return AgentResult.Ok($"{Transaction.Id} Denied");               
         }

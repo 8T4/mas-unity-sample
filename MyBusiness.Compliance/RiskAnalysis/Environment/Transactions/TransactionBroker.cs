@@ -1,9 +1,6 @@
-using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using MyBusiness.Compliance.AnalysisAfterPurchase.Models;
 
-namespace MyBusiness.Compliance.AnalysisAfterPurchase.Application
+namespace MyBusiness.Compliance.RiskAnalysis.Environment.Transactions
 {
     public class TransactionBroker
     {

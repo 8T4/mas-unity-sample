@@ -1,8 +1,9 @@
 using System;
 using System.Text;
+using MasUnity.Decision;
 using Newtonsoft.Json;
 
-namespace MyBusiness.Compliance.AnalysisAfterPurchase.Models
+namespace MyBusiness.Compliance.RiskAnalysis.Environment.Transactions
 {
     public class Transaction
     {
@@ -17,10 +18,11 @@ namespace MyBusiness.Compliance.AnalysisAfterPurchase.Models
         public void Deny() => State = TransactionState.Denied;
 
         
-        public override string ToString()
+        public string ToString(AgentContext context)
         {
             var sb = new StringBuilder();
             sb.AppendLine("".PadLeft(50, '*'));
+            sb.AppendLine($"{context.Identity.Uri}");
             sb.AppendLine(State == TransactionState.Allowed ? "TRANSACTION ALLOWED" : "TRANSACTION DENIED");
             sb.AppendLine(JsonConvert.SerializeObject(this));
             sb.AppendLine("".PadLeft(50, '*'));

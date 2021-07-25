@@ -1,4 +1,4 @@
-namespace MyBusiness.Compliance.AnalysisAfterPurchase.Models
+namespace MyBusiness.Compliance.RiskAnalysis.Environment.Transactions
 {
     public enum TransactionState
     {
