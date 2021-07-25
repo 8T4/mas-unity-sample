@@ -4,7 +4,7 @@
     <br/>It is a dotnet framework that helps in the development of MAS (Multi-agent systems) applied to integrative business information systems (IBIS). MAS Unity will assist in the construction, deployment and monitoring of a cluster of autonomous agents.
 </p>
 
-# MAS Unity Sample
+# How to implement Agents using MAS Unity
 This repository has a sample of the application of [MAS Unity](https://github.com/8T4/mas-unity). This code presents an example of an agent that performs the credit analysis after purchase. The following steps show the implementation of the sample project.
 
 ## Dependencies
@@ -18,7 +18,7 @@ Install-Package MasUnity.HealthCheck
 
 [Tutorial: Create a web API with ASP.NET Core](https://docs.microsoft.com/en-us/aspnet/core/tutorials/first-web-api?view=aspnetcore-5.0&tabs=visual-studio)
 
-## Modeling the Agent Software
+## Modeling
 It's important to keep your Agent code organized and easy to maintain. This section will provide a modeling tactical approach to achieve a satisfactory maintainability level. For this, it's recommended to use a domain-model approach to approximate the Agent of own acting environment. In this sense, we propose this modeling structure:
 
 ```
@@ -31,16 +31,14 @@ Project/
 │  │  ├─ Actions/
 │  │  │  ├─ Action.cs
 │  │  │  │
-│  │  ├─ Environments/
-│  │  │  ├─ Environment.cs
-│  │  │  │
 │  │  ├─ Knowledges/
 │  │  │  ├─ Knowledge.cs
 │  │  │  │
 │  │  ├─ Agent.cs
 │  │  ├─ Schedule.cs
-
-
+│  │  │  
+│  ├─ Environment/
+│  │  │  ├─ Environment.cs
 ```
 
 - [**Use case**](https://en.wikipedia.org/wiki/Use_case): is a list of actions or event steps typically defining the interactions between a Agent and a system to achieve a goal. 
@@ -53,6 +51,36 @@ Project/
 
 - [**Environment**](https://www.researchgate.net/publication/222827222): system operates in an environment which is similar to the notion of the environment of an organization and that of a multi-agent system.
                                                                                                  
-  
 
-## The sample project code
+## Coding
+Our sample simulates a purchase analysis environment. In this context, the Agent verify if the transaction is a credit card transaction. Given some conditions, this Agent should allow or deny the transaction. For this, the Agent realizes the transaction and choose de appropiated action to be executed.                                                                                                         
+                                                                                                 
+### Actions
+The following code represents a implementatio of Agente Action.
+                                                                                                 
+```c#
+public class AllowCreditCardTransaction : IAction
+{
+    ...
+                                                                                                 
+    public Task<Perception> Realize(AgentContext context, CancellationToken cancellation)
+    {
+        Transaction = Queue.GetNext();
+
+        return Perception.Assertion(
+            ("It's a credit card transaction", Transaction.IsCreditCardTransaction()),
+            ("It's normal transaction time", AboutTransactionSchedule.ItsNormalTransactionSchedule()),
+            ("It's a safe credit card transactions", Knowledge.IsSafeTransaction(Transaction))
+        );
+    }
+
+    public async Task<AgentResult> Execute(AgentContext context, CancellationToken cancellation)
+    {
+        await Queue.SaveAsApprovedTransaction(Transaction);
+        Console.WriteLine(Transaction.ToString(context));
+        return AgentResult.Ok($"{Transaction.Id} Allowed");
+    }
+}  
+```
+See all [actions code](https://github.com/8T4/mas-unity-sample/tree/main/MyBusiness.Compliance/RiskAnalysis/Agents/CreditRisk/Actions) in sample project
+
