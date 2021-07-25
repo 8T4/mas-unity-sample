@@ -53,10 +53,10 @@ Project/
                                                                                                  
 
 ## Coding
-Our sample simulates a purchase analysis environment. In this context, the Agent verify if the transaction is a credit card transaction. Given some conditions, this Agent should allow or deny the transaction. For this, the Agent realizes the transaction and choose de appropiated action to be executed.                                                                                                         
+Our sample simulates a purchase analysis environment. In this context, the Agent verify if the transaction is a credit card transaction. Given some conditions, this Agent should allow or deny the transaction. For this, the Agent realizes the transaction and choose de appropiated action to be executed. The following subsections ilustrates the implementation of Action, Knowledges and Agents classes in this sample.                                                                                                    
                                                                                                  
 ### Actions
-The following code represents a implementatio of Agente Action.
+A Action is a class that implements the `Realize` and `Execute` methods of `IAction` interface. How is shown in the following code:
                                                                                                  
 ```c#
 public class AllowCreditCardTransaction : IAction
@@ -82,5 +82,51 @@ public class AllowCreditCardTransaction : IAction
     }
 }  
 ```
-See all [actions code](https://github.com/8T4/mas-unity-sample/tree/main/MyBusiness.Compliance/RiskAnalysis/Agents/CreditRisk/Actions) in sample project
+See all [actions code](https://github.com/8T4/mas-unity-sample/tree/main/MyBusiness.Compliance/RiskAnalysis/Agents/CreditRisk/Actions) in sample project.
 
+
+### Knowledges
+The Knowledge class implement the interface `IKnowledge`. This interface is used only for injection concerns. The following code ilustrate the Knowledge implementation:
+                 
+```c#
+//Transactions after 20 PM               
+public class AboutCreditCardTransactionAfter20Pm : IKnowledge
+{
+    public bool IsUnsafeTransaction(Transaction transaction) =>
+        transaction.IsCreditCardTransaction() && transaction.Value >= 2500 && transaction.ReliabilityRating <= 3;
+}
+
+//Transactions between 8AM and 20 PM                  
+public class AboutCreditCardTransactionBetween8AmAnd20Pm : IKnowledge
+{
+    public bool IsSafeTransaction(Transaction transaction) =>
+        transaction.IsCreditCardTransaction() && !IsUnsafeTransaction(transaction);
+
+    public bool IsUnsafeTransaction(Transaction transaction) =>
+        transaction.IsCreditCardTransaction() && transaction.Value >= 4500 && transaction.ReliabilityRating < 3;
+}
+```
+See all [Knowledges code](https://github.com/8T4/mas-unity-sample/tree/main/MyBusiness.Compliance/RiskAnalysis/Agents/CreditRisk/Knowledges) in sample project.
+                 
+### Agent
+The Agent class might inherit a `PoractiveAgent` (wich demands a schedule) or a `ReactiveAgent` (wich execution depends of a directily call). Both parent classes demands the implementation of `RegisterActions` method. The following code ilustrate the Agent implementation:
+
+```c#
+public class CreditRiskAgent: ProactiveAgent
+{
+    private readonly IAgentServiceScope _scope;
+
+    public CreditRiskAgent(IAgentServiceScope scope, CreditRiskAgentSchedule schedule) : base(schedule)
+    {
+        _scope = scope;
+    }
+
+    protected override IEnumerable<IAction> RegisterActions()
+    {
+        yield return _scope.GetService<AllowCreditCardTransaction>();
+        yield return _scope.GetService<DenyCreditCardTransaction>();
+        yield return _scope.GetService<DenyCreditCardTransactionAfter20Pm>();
+    }
+}
+```
+ 
