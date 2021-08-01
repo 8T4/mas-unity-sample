@@ -129,4 +129,34 @@ public class CreditRiskAgent: ProactiveAgent
     }
 }
 ```
- 
+
+## Configuring
+                 
+### Configuring MAS Unity services in Asp.net application
+
+The following code ilustrate the configutration of MAS Unity Agents in Asp.net application
+
+```c#
+public class Startup
+{
+    public void ConfigureServices(IServiceCollection services)
+    {
+        ...
+                 
+        services.ConfigureMasUnity((option) =>
+        {
+            option.AddAgent<CreditRiskAgent>()
+                .WithSchedule<CreditRiskAgentSchedule>()
+                .WithEnvironment<PendingTransactions>()
+                .WithKnowledge<AboutCreditCardTransactionAfter20Pm>()
+                .WithKnowledge<AboutCreditCardTransactionBetween8AmAnd20Pm>()
+                .WithAction<AllowCreditCardTransaction>()
+                .WithAction<DenyCreditCardTransaction>()
+                .WithAction<DenyCreditCardTransactionAfter20Pm>()
+                .WithHealtCheck()
+                .Build();
+        });
+    }
+}                 
+```
+See all [code](https://github.com/8T4/mas-unity-sample/blob/main/MyBusiness.Compliance/Startup.cs) in sample project
