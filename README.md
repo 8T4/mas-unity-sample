@@ -134,7 +134,7 @@ public class CreditRiskAgent: ProactiveAgent
                  
 ### Configuring MAS Unity services in Asp.net application
 
-The following code ilustrate the configutration of MAS Unity Agents in Asp.net application
+The following code ilustrate the configutration of five instances of MAS Unity Agents in Asp.net application
 
 ```c#
 public class Startup
@@ -145,7 +145,7 @@ public class Startup
                  
         services.ConfigureMasUnity((option) =>
         {
-            option.AddAgent<CreditRiskAgent>()
+            option.AddAgent<CreditRiskAgent>(5)
                 .WithSchedule<CreditRiskAgentSchedule>()
                 .WithEnvironment<PendingTransactions>()
                 .WithKnowledge<AboutCreditCardTransactionAfter20Pm>()
@@ -160,3 +160,16 @@ public class Startup
 }                 
 ```
 See all [code](https://github.com/8T4/mas-unity-sample/blob/main/MyBusiness.Compliance/Startup.cs) in sample project
+                 
+### Configuring Health check and Open API
+
+see this [code](https://github.com/8T4/mas-unity-sample/blob/main/MyBusiness.Compliance/Configuration/DependencyInjection.cs) to understand how to configure Health Check and Open API for your Agents.
+                 
+## Running
+### Health Check
+When you configure your agente using the method `.WithHealtCheck()`, it's possible monitoring the health of each agent instance.                 
+![hc](https://raw.githubusercontent.com/8T4/mas-unity-sample/main/docs/imgs/hc.png)
+
+### Open API Contract
+MAS Unity provides a controller to manipulate the Agent instance execution.         
+![hc](https://raw.githubusercontent.com/8T4/mas-unity-sample/main/docs/imgs/oa.png)         
