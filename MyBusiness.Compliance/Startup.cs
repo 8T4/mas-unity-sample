@@ -24,7 +24,7 @@ namespace MyBusiness.Compliance
 
             services.ConfigureMasUnity((option) =>
             {
-                option.AddAgent<CreditRiskAgent>()
+                option.AddAgent<CreditRiskAgent>(5)
                     .WithSchedule<CreditRiskAgentSchedule>()
                     .WithEnvironment<PendingTransactions>()
                     .WithKnowledge<AboutCreditCardTransactionAfter20Pm>()

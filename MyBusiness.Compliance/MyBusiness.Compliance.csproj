@@ -25,8 +25,8 @@
     </ItemGroup>    
 
     <ItemGroup Label="MasUnity">
-      <PackageReference Include="MasUnity" Version="1.0.4-beta" />
-      <PackageReference Include="MasUnity.HealthCheck" Version="1.0.4-beta" />
-      <PackageReference Include="MasUnity.HostedService" Version="1.0.4-beta" />
+      <PackageReference Include="MasUnity" Version="1.0.0" />
+      <PackageReference Include="MasUnity.HealthCheck" Version="1.0.0" />
+      <PackageReference Include="MasUnity.HostedService" Version="1.0.0" />
     </ItemGroup>
 </Project>
