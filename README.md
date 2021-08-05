@@ -56,7 +56,7 @@ Project/
 Our sample simulates a purchase analysis environment. In this context, the Agent verify if the transaction is a credit card transaction. Given some conditions, this Agent should allow or deny the transaction. For this, the Agent realizes the transaction and choose de appropiated action to be executed. The following subsections ilustrates the implementation of Action, Knowledges and Agents classes in this sample.                                                                                                    
                                                                                                  
 ### Actions
-A Action is a class that implements the `Realize` and `Execute` methods of `IAction` interface. How is shown in the following code:
+An Action is a class that implements the `Realize` and `Execute` methods of `IAction` interface. How is shown in the following code:
                                                                                                  
 ```c#
 public class AllowCreditCardTransaction : IAction
