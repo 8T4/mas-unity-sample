@@ -77,7 +77,6 @@ public class AllowCreditCardTransaction : IAction
     public async Task<AgentResult> Execute(AgentContext context, CancellationToken cancellation)
     {
         await Queue.SaveAsApprovedTransaction(Transaction);
-        Console.WriteLine(Transaction.ToString(context));
         return AgentResult.Ok($"{Transaction.Id} Allowed");
     }
 }  
